@@ -5,7 +5,7 @@ class Tile
 
   def initialize
     @value = 0
-    @hidden = false
+    @hidden = true
     @flagged = false
     @neighbor_tiles = []
   end
@@ -20,6 +20,10 @@ class Tile
 
   def neighbor_to_bomb?
     @value > 0
+  end
+
+  def hide
+    @hidden = true
   end
 
   def add_one

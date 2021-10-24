@@ -7,7 +7,6 @@ class Game
   def play
     loop do
       position = reveal_tile
-      @board.render
       if tile_has_bomb?(position)
         puts 'You lost, tile has a bomb!'
         @board.render
@@ -21,7 +20,11 @@ class Game
   end
 
   def reveal_neighbor_tiles(pos)
-    @board.reveal_neighbor_tiles(pos)
+    row,col = pos
+    tile = @board.grid[row][col]
+    tile.hide
+    @board.reveal_neighbor_tiles(tile)
+    @board.render
   end
 
   def win?
@@ -37,7 +40,6 @@ class Game
     loop do
       position = get_user_input
       break if tile_revealed?(position)
-      @board.render
       puts "Tile is already revealed"
       
     end

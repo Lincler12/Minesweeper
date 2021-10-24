@@ -2,6 +2,7 @@ class Tile
   def initialize(value)
     @value = value
     @hidden = true
+    @flagged = false
   end
 
   def bomb?
@@ -14,10 +15,11 @@ class Tile
 
   def reveal
     @hidden = false
+
   end
 
-  def revealed?
-    @hidden == false
+  def hidden?
+    @hidden == true
   end
 
 end

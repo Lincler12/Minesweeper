@@ -1,32 +1,60 @@
 require_relative 'Board'
 class Game
-  def initialize(board_size = 3)
-    @board = Board.new(board_size)
+  def initialize(number_of_bombs = 9,board_size = 9)
+    @board = Board.new(number_of_bombs, board_size)
   end
 
   def play
-    position = reveal_tile
+    loop do
+      position = reveal_tile
+      @board.render
+      if tile_has_bomb?(position)
+        puts 'You lost, tile has a bomb!'
+        @board.render
+        return
+      end
+      reveal_neighbor_tiles(position)
+      if win?
+        puts "Congrats! You've won!"
+      end
+    end
+  end
 
+  def reveal_neighbor_tiles(pos)
+    @board.reveal_neighbor_tiles(pos)
+  end
+
+  def win?
+    @board.win?
+  end
+
+  def tile_has_bomb?(pos)
+    @board.tile_has_bomb?(pos)
   end
 
   def reveal_tile
-    position = ""
+    position = ''
     loop do
-      position = choose_square
+      position = get_user_input
       break if tile_revealed?(position)
+      @board.render
+      puts "Tile is already revealed"
+      
     end
     position
   end
 
-  def choose_square
+  def get_user_input
     position = ''
     loop do
+      puts "Enter a position"
       position = gets.chomp.split(',').map(&:to_i)
       return position if position_correct?(position)
-      puts "Wrong input. Please try again."
+
+      puts 'Wrong input. Please try again.'
     end
   end
-  
+
   def tile_revealed?(pos)
     @board.tile_revealed?(pos)
   end

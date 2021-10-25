@@ -1,5 +1,5 @@
 class Tile
-  attr_accessor :value, :neighbor_tiles
+  attr_accessor :value, :neighbor_tiles, :selected, :flagged
 
   BOMB = 'b'
 
@@ -8,6 +8,7 @@ class Tile
     @hidden = true
     @flagged = false
     @neighbor_tiles = []
+    @selected = false
   end
 
   def add_one_to_neighbor_tiles
@@ -47,10 +48,13 @@ class Tile
   end
 
   def to_s
-    return 'f' if @flagged
+    return 'f' if @flagged && @hidden
+
+    return '_' if @hidden && @selected
 
     return '*' if @hidden
 
     @value.to_s
   end
-end
+
+  end

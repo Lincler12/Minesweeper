@@ -98,9 +98,8 @@ class Board
     end
   end
 
-  def tile_has_bomb?(pos)
-    row, col = pos
-    @grid[row][col].bomb?
+  def tile_has_bomb?(tile)
+    tile.bomb?
   end
 
   # Win condition: Each tile is revealed other than the ones with bomb
@@ -135,24 +134,28 @@ class Board
     row < @board_side_size && row >= 0 && row.is_a?(Integer) && col < @board_side_size && col >= 0 && col.is_a?(Integer)
   end
 
-  def tile_revealed?(pos)
-    row, col = pos
-    tile = @grid[row][col]
-    if tile.hidden?
-      tile.reveal
-      return true
-    end
-    false
+  def tile_reveal(tile)
+    tile.reveal
   end
 
-
   def render
+    puts "------"
     @board_side_size.times do |row|
       @board_side_size.times do |col|
         print @grid[row][col]
       end
       print "\n"
     end
+    puts "------"
+  end
+
+  def selected_tile?(tile)
+    tile.selected = true if tile.hidden?
+    tile.selected
+  end
+
+  def flag_tile(tile)
+    tile.flagged = !tile.flagged
   end
 end
 

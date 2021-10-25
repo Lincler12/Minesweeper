@@ -11,6 +11,11 @@ class Board
     init_grid
   end
 
+
+  def unselect_tile(tile)
+    tile.selected = false
+  end
+
   def generate_bombs
     @number_of_bombs.times do
       loop do

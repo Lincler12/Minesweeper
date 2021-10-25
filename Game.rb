@@ -1,29 +1,42 @@
 require_relative 'Board'
 class Game
+  attr_accessor :finished
   def initialize(number_of_bombs = 9, board_size = 9)
+    @finished = false
     @board = Board.new(number_of_bombs, board_size)
   end
 
   def play
     loop do
       tile = select_tile
-      if flag_or_reveal_prompt == 'f'
+      case user_options_prompt(tile)
+      when 'f'
         flag_tile(tile)
         @board.render
         next
-      end
-      if tile_has_bomb?(tile)
-        puts 'You lost, tile has a bomb!'
-        tile_reveal(tile)
-        @board.render
-        return
-      end
-      reveal_neighbor_tiles(tile)
-      if win?
-        puts "Congrats! You've won!"
+      when 'q'
+        unselect_tile(tile)
         break
+      else
+        if tile_has_bomb?(tile)
+          puts 'You lost, tile has a bomb'
+          @finished = true
+          tile_reveal(tile)
+          @board.render
+          break
+        end
+        reveal_neighbor_tiles(tile)
+        if win?
+          @finished = true
+          puts "Congrats! You've won!"
+          break
+        end
       end
     end
+  end
+
+  def unselect_tile(tile)
+    @board.unselect_tile(tile)
   end
 
   def reveal_neighbor_tiles(tile)
@@ -51,15 +64,17 @@ class Game
       end
       puts 'Tile is already revealed'
     end
-    tile 
+    tile
   end
 
   def flag_tile(tile)
     @board.flag_tile(tile)
   end
 
-  def flag_or_reveal_prompt
-    puts "Press f to flag or enter to reveal (r is the default)"
+  def user_options_prompt(_tile)
+    puts 'Press f to flag'
+    puts 'enter to reveal'
+    puts 'q to quit'
     user_input = gets.chomp
   end
 
@@ -93,4 +108,3 @@ if __FILE__ == $PROGRAM_NAME
   game = Game.new(1, 3)
   game.play
 end
-

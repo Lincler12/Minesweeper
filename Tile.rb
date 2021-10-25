@@ -11,6 +11,7 @@ class Tile
     @selected = false
   end
 
+
   def add_one_to_neighbor_tiles
     @neighbor_tiles.each { |tile| tile.add_one }
   end

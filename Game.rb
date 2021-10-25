@@ -15,6 +15,7 @@ class Game
       reveal_neighbor_tiles(position)
       if win?
         puts "Congrats! You've won!"
+        break;
       end
     end
   end
@@ -67,6 +68,11 @@ class Game
 end
 
 if __FILE__ == $PROGRAM_NAME
-  game = Game.new
+  game = Game.new(1,3)
   game.play
 end
+
+
+#TODO: Check if the game ends correctly
+#TODO: Add user UI for adding flags or reveal tile
+#TODO: Add user UI to show what tile is selected (recommended symbol '_')

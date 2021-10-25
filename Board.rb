@@ -132,7 +132,7 @@ class Board
 
   def position_correct?(pos)
     row, col = pos
-    row < @board_side_size && row > 0 && row.is_a?(Integer) && col < @board_side_size && col > 0 && col.is_a?(Integer)
+    row < @board_side_size && row >= 0 && row.is_a?(Integer) && col < @board_side_size && col >= 0 && col.is_a?(Integer)
   end
 
   def tile_revealed?(pos)

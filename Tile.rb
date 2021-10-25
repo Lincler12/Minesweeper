@@ -1,3 +1,4 @@
+require 'colorize'
 class Tile
   attr_accessor :value, :neighbor_tiles, :selected, :flagged
 
@@ -10,7 +11,6 @@ class Tile
     @neighbor_tiles = []
     @selected = false
   end
-
 
   def add_one_to_neighbor_tiles
     @neighbor_tiles.each { |tile| tile.add_one }
@@ -49,13 +49,14 @@ class Tile
   end
 
   def to_s
-    return 'f' if @flagged && @hidden
+    return 'f'.colorize(:magenta) if @flagged && @hidden
 
-    return '_' if @hidden && @selected
+    return '_'.colorize(:yellow) if @hidden && @selected
 
-    return '*' if @hidden
+    return '*'.colorize(:white) if @hidden
 
-    @value.to_s
+    return "#{@value}".colorize(:red) if @value.is_a?(String) && @value == BOMB
+    return "#{@value}".colorize(:green) if @value.is_a?(Integer) && @value > 0
+    return "#{@value}".colorize(:light_blue) 
   end
-
-  end
+end

@@ -1,4 +1,3 @@
-require 'byebug'
 require_relative 'Tile'
 class Board
   attr_reader :grid

@@ -21,7 +21,7 @@ class Main
     when 'p'
       play_new_game
     when 'c'
-
+      continue_existing_game
     else
       puts 'Wrong input. Please try again'
     end
@@ -29,11 +29,11 @@ class Main
 
   def save_game
     debugger
-    if not @game.finished && not @game == nil
+    if not @game.finished && @game != nil
       puts 'Give a save file name'
       file_name = gets.chomp
       File.open("./save_files/#{file_name}", 'w') { |file| file.write(@game.to_yaml) }
-      next
+      return
     end
     puts "Can't save a finished game or a non existing game"
   end
@@ -55,7 +55,7 @@ class Main
     puts 'choose an option'
     puts 's -> save game'
     puts 'p -> play new game'
-    puts 'c -> continue existing game if exists'
+    puts 'c -> continue existing game'
     gets.chomp
   end
 end

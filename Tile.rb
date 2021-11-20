@@ -55,8 +55,8 @@ class Tile
 
     return '*'.colorize(:white) if @hidden
 
-    return "#{@value}".colorize(:red) if @value.is_a?(String) && @value == BOMB
-    return "#{@value}".colorize(:green) if @value.is_a?(Integer) && @value > 0
-    return "#{@value}".colorize(:light_blue) 
+    return @value.to_s.colorize(:red) if @value.is_a?(String) && @value == BOMB
+    return @value.to_s.colorize(:green) if @value.is_a?(Integer) && @value > 0
+    return @value.to_s.colorize(:light_blue)
   end
 end
